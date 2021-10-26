@@ -67,3 +67,46 @@
     Sin embargo, luego, al bloquear dicha rotación se puede observar cómo el cubo es incapaz de caer rodando como lo hacía en el GIF anterior ya que el plano XZ para la rotación está bloqueado. Para realizar esta configuración es tan sencillo como ir al Inspector y, dentro de las opciones que te da el component *RigidBody* seleccionar las restricciones *Constraints* y, seleccionar las casillas para *Freeze Rotation* que interesen.
 
     ![Both RigidBody, sphere mass x10 and XZ are freezed](GIFs/gif_animation_019.gif)
+
+
+2. **Sobre la escena que has trabajado ubica un cubo que represente un personaje que vas a mover. Se debe implementar un script que haga de CharacterController. Cuando el jugador pulse las teclas de flecha (o aswd) el jugador se moverá en la dirección que estos ejes indican**
+   
+    a. **Crear un script para el personaje que lo desplace por la pantalla, sin aplicar simulación física**
+
+    Antes de continuar, siguiendo con las configuraciones del primer apartado, debemos eliminar las físicas del cubo, para poder hacer uso del *Transform*.
+
+    Luego, creamos un script *CharacterController* donde se crea un objeto del tipo transform que va a ser utilizado para actualizar las posiciones al acceder a *myTransform.position*. Además, se obtienen los ejes X y Z del momento para crear un Vector3 el cual va a ser utilizado para mover el objeto, y lo multiplicaremos por el *Time.deltaTime* para que se actualice el movimiento por cada segundo que pasa.
+
+    ![Cube with manual CharacterController](img/2.a.png)
+
+    Importante saber que, el Input.GetAxis(AxisName) devolverá el valor del eje virtual correspondiente a AxisName, que estará comprendido en un rango entre el -1 y el 1. Y, que también se encuentra asociado a las flechas del teclado y aswd, por lo que se encuentra en constante escucha.
+
+    ![Cube with manual CharacterController](GIFs/movie_004.gif)
+
+
+    b. **Agregar un campo público que permita graduar la velocidad del movimiento desde el inspector de objetos**
+
+    Al mismo fichero con el que trabajamos anteriormente, le añadimos una asignación de la variable *speed* y ésta a su vez la multiplicamos en la posición del objeto transform, para que no solamente considere el tiempo sino la velocidad del objeto. 
+
+    ![Cube with speed](img/2.b.png)
+
+    Adicionalmente, al hacer esto se añade una configuración nueva en el inspector, que permite cambiar dicha velocidad para ejecutarlo, sin necesidad de cambiarlo en el script.
+
+    ![Cube with speed](img/2.b.2.png)
+
+    ![Cube with speed](GIFs/movie_005.gif)
+
+    c. **Estar a la escucha de si el usuario ha utilizado los ejes virtuales. Elegir cuáles se va a permitir utilizar: flechas, aswd.**
+
+    Tal y como se explicó en el apartado 2.a, ya el Input.GetAxis viene mapeado por defecto con ambas alternativas, por lo que el usuario libremente podrá usar cualquiera de las dos durante una misma ejecución y funcionará por igual para las flechas como para aswd.
+
+    d. **Elegir otros ejes virtuales para el giro y girar al jugador sobre el eje OY(up).**
+
+    Añadimos una velocidad de giro y, directamente se hace uso del *Transform.rotate* donde solo se le da valores al eje Y a partir de la velocidad multiplicada con el tiempo. Y, para reconocer el input se asignaron las teclas Q y E, para las rotaciones negativas y positivas, respectivamente.
+
+    ![OY axis](img/2.c.png)
+
+    La ejecución sería algo como el siguiente GIF:
+    
+    ![OY axis](GIFs/movie_006.gif)
+
